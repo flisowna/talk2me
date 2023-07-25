@@ -1,43 +1,35 @@
-"use client";
-
 import React, { useEffect, useState } from 'react';
-import { fetchGame1Records } from '../../utils/game1';
 import Link from 'next/link';
+import pathsToAPITableIds from '../../utils/mapping'; 
 
-const Home = () => {
-  const [records, setRecords] = useState([]);
+const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchedRecords = await fetchGame1Records();
-      setRecords(fetchedRecords);
-    };
+async function getData() {
+  const res = await fetch(`https://apitable.com/fusion/v1/datasheets/${pathsToAPITableIds.climate}/records`,
+    {
+    headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+  },
 
-    fetchData();
-  }, []);
+  })
+// The return value is *not* serialized
+// You can return Date, Map, Set, etc.
+
+// Recommendation: handle errors
+if (!res.ok) {
+  // This will activate the closest `error.js` Error Boundary
+  throw new Error('Failed to fetch data')
+}
+
+return res.json()
+}
+
+export default async function Home() {
+  const data = await getData()
 
   return (
     <div>
-      <h1>Choose a Game Topic:</h1>
-      <ul>
-        <li>
-          <Link href="/game1">
-            Game 1
-          </Link>
-        </li>
-        <li>
-          <Link href="/game2">
-            Game 2
-          </Link>
-        </li>
-        <li>
-          <Link href="/game3">
-            Game 3
-          </Link>
-        </li>
-      </ul>
+      {JSON.stringify(data)}
     </div>
   );
 };
-
-export default Home;
