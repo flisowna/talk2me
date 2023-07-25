@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import pathsToAPITableIds from '../../utils/mapping'; 
+import pathsToAPITableIds from '../../../../utils/mapping';
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
