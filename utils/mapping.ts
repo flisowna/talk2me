@@ -1,6 +1,6 @@
-type Foo = { [key: string]: string };
+type Path = { [key: string]: string };
 
-const pathsToAPITableIds: Foo = {
+const pathsToAPITableIds: Path = {
     "climate": "dstUnsGlknmmWoDVCp",
     "war": "dstV2ZG3aUAfW1heUj",
 }
