@@ -3,25 +3,79 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --primary-color: #1C9B9A;
+  --secondary-color: #F1F1FF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+html,
+body {
+  padding: 0;
+  /* max-width: max-content; */
+  width: 85%;
+  margin-top: 1.5vw;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--secondary-color);
+  font-family: 'poppins', sans-serif;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    margin-top: 0.8rem;
+
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+a {
+  color: var(--primary-color);
+  text-decoration: none;
 }
+
+* {
+  box-sizing: border-box;
+}
+h2 {
+  font-size: 1.2rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+
+p {
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+h1 {
+  text-transform: uppercase;
+  text-align: center;
+  font-family: var(--font-source-code-pro);
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+button {
+  border: 2px solid #333333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: transparent;
+  width: auto;
+  text-transform: uppercase;
+  margin: 0.8rem 0;
+  height: 2.5rem;
+  font-size: 1rem;
+  font-family: var(--font-source-code-pro), monospace;  
+  text-transform: uppercase;
+
+
+}
+
+button:hover {
+  box-shadow: 0px 5px 9px 0px rgba(0, 0, 0, 0.3);
+
+}
+

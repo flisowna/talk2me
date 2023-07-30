@@ -3,55 +3,42 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-type FetchGameRecordsFunction = () => Promise<Question[]>;
-
 interface Question {
-  id: number;
-  topic: string;
+  id: string;
   questionText: string;
   answerA: string;
   feedbackA: {
     title: string;
     text: string;
   };
-  answerALeadsTo: number | null;
+  answerALeadsTo: string | null;
   answerB: string;
   feedbackB: {
     title: string;
     text: string;
   };
-  answerBLeadsTo: number | null;
+  answerBLeadsTo: string | null;
 }
 
 interface GameProps {
-  fetchGameRecords: FetchGameRecordsFunction;
+    gameData: Question[];
 }
 
-const Game: React.FC<GameProps> = ({ fetchGameRecords }) => {
-  const router = useRouter();
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+const Game: React.FC<GameProps> = ({ gameData }) => {
+//   const router = useRouter();
+  const [currentQuestionId, setCurrentQuestionId] = useState<string>('1');
   const [questionNumber, setQuestionNumber] = useState<number>(1);
   const [showAnswerA, setShowAnswerA] = useState<boolean>(true); // Show Answer A by default
   const [chosenAnswer, setChosenAnswer] = useState<string | null>(null);
   const [feedbackVisible, setFeedbackVisible] = useState<boolean>(false);
   const [falseAnswerCount, setFalseAnswerCount] = useState<number>(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const records = await fetchGameRecords();
-      setQuestions(records);
-    };
-
-    fetchData();
-  }, [fetchGameRecords]);
 
   useEffect(() => {
-    // Reset the state when a new question is displayed
     setShowAnswerA(true);
     setChosenAnswer(null);
     setFeedbackVisible(false);
-  }, [currentQuestionIndex]);
+  }, [currentQuestionId]);
 
   const handleSwitchAnswer = () => {
     setShowAnswerA((prevShowAnswerA) => !prevShowAnswerA);
@@ -68,18 +55,22 @@ const Game: React.FC<GameProps> = ({ fetchGameRecords }) => {
   };
 
   const handleNextQuestion = () => {
-    const currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
+    if (!currentQuestion) {
+        // Handle the case when the current question is not found
+        return;
+      }
     const nextQuestionId = showAnswerA
       ? currentQuestion.answerALeadsTo
       : currentQuestion.answerBLeadsTo;
   
     if (nextQuestionId === null) {
       // User has completed all questions for this game
-      router.push('/'); // Redirect back to the starting page
+      console.log('no more questions') // Redirect back to the starting page
     } else {
       // Move to the next question
-      const nextQuestionIndex = questions.findIndex((q) => q.id === nextQuestionId);
-      setCurrentQuestionIndex(nextQuestionIndex);
+      const nextQuestionIndex = gameData.find((q) => q.id == nextQuestionId);
+      setCurrentQuestionId(nextQuestionId);
       setQuestionNumber((prevNumber) => prevNumber + 1);
     }
     
@@ -93,17 +84,20 @@ const Game: React.FC<GameProps> = ({ fetchGameRecords }) => {
       : [question.answerB, question.answerA];
   };
 
-  if (!questions.length) {
+  if (!gameData.length) {
     return <div>Loading...</div>;
   }
+  const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
+  if (!currentQuestion) {
+    // Handle the case when the current question is not found   
+    return <div>Question not found</div>;
+    }
 
-  const currentQuestion = questions[currentQuestionIndex];
   const [firstAnswer, secondAnswer] = shuffleAnswers(currentQuestion);
 
   return (
     <div>
-      <h1>{currentQuestion.topic}</h1>
-      <h2>Question {questionNumber}</h2>
+      <h1>Situation {questionNumber}</h1>
       <p>{currentQuestion.questionText}</p>
       {showAnswerA ? <p>{firstAnswer}</p> : <p>{secondAnswer}</p>}
       <button onClick={handleSwitchAnswer}>Switch Answer</button>

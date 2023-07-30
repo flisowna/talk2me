@@ -1,46 +1,45 @@
-import axios from 'axios';
+import pathsToAPITableIds from './mapping';
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
-const fetchRecords = async (apiUrl) => {
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: {
+export async function generateStaticParams() {
+ 
+  return Object.keys(pathsToAPITableIds).map((path) => ({
+    slug: path,
+  }))
+}
+
+export async function getData( slug: string ) {
+  const path = pathsToAPITableIds[slug]
+  const res = await fetch(`https://apitable.com/fusion/v1/datasheets/${path}/records`,
+    {
+    headers: {
         Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
+  },
 
-    if (response.status === 200 && response.data.success) {
-      const records = response.data.data.records;
+  })
+if (!res.ok) {
+  throw new Error('Failed to fetch data')
+}
 
-      const questions = records.map((record) => {
-        const fields = record.fields;
+const data = await res.json();
 
-        return {
-          id: fields['Question ID'],
-          questionText: fields['Question text'],
-          answerA: fields['Answer A Text'],
-          feedbackA: {
-            title: fields['Title - Feedback to Answer A'],
-            text: fields['Text - Feedback to Answer A'],
-          },
-          answerALeadsTo: fields['Answer A leads to'],
-          answerB: fields['Answer B Text'],
-          feedbackB: {
-            title: fields['Title - Feedback to Answer B'],
-            text: fields['Text - Feedback to Answer B'],
-          },
-          answerBLeadsTo: fields['Answer B leads to'],
-        };
-      });
+const transformedData = data.data.records.map((record: { recordId: any; fields: { [x: string]: any; }; }) => ({
+  id: record.fields['Question ID'],
+  questionText: record.fields['Question text'],
+  answerA: record.fields['Answer A Text'],
+  feedbackA: {
+    title: record.fields['Title - Feedback to Answer A'],
+    text: record.fields['Text - Feedback to Answer A'],
+  },
+  answerALeadsTo: record.fields['Answer A leads to'],
+  answerB: record.fields['Answer B Text'],
+  feedbackB: {
+    title: record.fields['Title - Feedback to Answer B'],
+    text: record.fields['Text - Feedback to Answer B'],
+  },
+  answerBLeadsTo: record.fields['Answer B leads to'],  
+}));
 
-      return questions;
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-  return [];
-};
-
-export { fetchRecords };
+return transformedData;
+}
