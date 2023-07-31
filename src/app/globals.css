@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
   --primary-color: #1C9B9A;
   --secondary-color: #F1F1FF;
@@ -16,7 +18,8 @@ body {
   margin-left: auto;
   margin-right: auto;
   background-color: var(--secondary-color);
-  font-family: 'poppins', sans-serif;
+  font-family: 'Stag', 'sans-serif';
+  color: #333333;
 }
 
 @media (max-width: 768px) {
@@ -46,13 +49,14 @@ h2 {
 
 p {
   font-weight: 400;
-  line-height: 1.5rem;
+  line-height: 1.7rem;
+  font-size: 1rem;
 }
 
 h1 {
   text-transform: uppercase;
   text-align: center;
-  font-family: var(--font-source-code-pro);
+  /* font-family: var(--font-source-code-pro); */
   font-size: 2.2rem;
   margin-bottom: 2rem;
   color: var(--primary-color);
@@ -68,7 +72,7 @@ button {
   margin: 0.8rem 0;
   height: 2.5rem;
   font-size: 1rem;
-  font-family: var(--font-source-code-pro), monospace;  
+  /* font-family: var(--font-source-code-pro), monospace;  */
   text-transform: uppercase;
 
 

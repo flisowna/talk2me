@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import ProgressCircle from './ProgressCircle';
 
 interface Question {
   id: string;
@@ -96,15 +97,33 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   const [firstAnswer, secondAnswer] = shuffleAnswers(currentQuestion);
 
   return (
-    <div>
+    <div className='flex flex-col max-w-2xl mx-auto'>
+        {/* <ProgressCircle
+        totalQuestions={10}
+        currentQuestionNumber={questionNumber}
+      /> */}
       <h1>Situation {questionNumber}</h1>
-      <p>{currentQuestion.questionText}</p>
-      {showAnswerA ? <p>{firstAnswer}</p> : <p>{secondAnswer}</p>}
-      <button onClick={handleSwitchAnswer}>Switch Answer</button>
+      <p className='max-w-lg mx-auto mb-8'>{currentQuestion.questionText}</p>
+      <div className='bg-white max-w-xs p-4 ml-auto mr-32 mb-10 relative'>
+        
+          <span className='text-md p-2 w-10 text-center font-bold mr-2 text-white bg-primary absolute -top-2 left-0 '>{showAnswerA ? "A" : "B"}</span>
+          <p className='mt-4'>{showAnswerA ? firstAnswer : secondAnswer}</p>
+        
+      </div>
+      <div className='flex justify-end mr-32 gap-4'>
       <button onClick={handleConfirmAnswer} disabled={chosenAnswer !== null}>
-        Confirm Answer
+        Sag Dies
       </button>
-      {feedbackVisible && (
+      {showAnswerA ? 
+        <button onClick={handleSwitchAnswer} disabled={chosenAnswer !== null}>
+        Andere Option
+        </button> :
+        <button onClick={handleSwitchAnswer} disabled={chosenAnswer !== null}>
+        Erste Option </button>
+        }
+        </div>
+      
+      {/* {feedbackVisible && (
         <div>
           {chosenAnswer === 'A' ? (
             <>
@@ -119,7 +138,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           )}
           <button onClick={handleNextQuestion}>Continue</button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

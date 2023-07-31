@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { Source_Code_Pro } from 'next/font/google'
 
 const stag = localFont({
   src: [
@@ -21,6 +22,8 @@ const stag = localFont({
     },
   ],
 })
+
+const source_code_pro = Source_Code_Pro({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Talk To Me - Kleiner Fünf',
