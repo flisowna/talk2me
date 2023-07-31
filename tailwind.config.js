@@ -13,6 +13,7 @@ module.exports = {
       primary: '#1C9B9A',
       secondary: '#F1F1FF',
       white: '#FFFFFF',
+      black: '#333333',
     },
   },
   plugins: [],

@@ -40,10 +40,12 @@ a {
   box-sizing: border-box;
 }
 h2 {
-  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-size: 2rem;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
-  font-weight: 600;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 
@@ -72,6 +74,9 @@ button {
   margin: 0.8rem 0;
   height: 2.5rem;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /* font-family: var(--font-source-code-pro), monospace;  */
   text-transform: uppercase;
 

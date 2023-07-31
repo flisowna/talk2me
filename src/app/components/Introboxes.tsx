@@ -35,9 +35,9 @@ const GameStoryBox = ({ box, image }: { box: IIntroBox; image: StaticImageData }
     </div>
     <div className="mb-2 ml-2 md:ml-0">
       <h2 className="text-xl font-semibold ">{box.title}</h2>
-      <p className="text-sm font-light mb-4">{box.text}</p>
+      <p className="text-sm font-light mb-4 hover:text-primary">{box.text}</p>
     </div>
-    <div className="absolute cursor-pointer right-0 bottom-0">
+    <div className="absolute cursor-pointer right-0 bottom-0 hover:opacity-80">
       <Image src="/arrow_icon.svg" width="40" height="40" alt="go forward" />
     </div>
   </div>
@@ -45,7 +45,7 @@ const GameStoryBox = ({ box, image }: { box: IIntroBox; image: StaticImageData }
 
 export const IntroBoxes = ({ introBoxesData }: IntroBoxesProps) => {
   return (
-    <div className="flex flex-row justify-center flex-wrap gap-10 mt-4">
+    <div className="flex flex-row justify-center flex-wrap gap-10 mt-4 mb-8">
       {introBoxesData.map((box, i) =>
 
         <Link key={i} href={`game/${imagesAndLinks[i].link}`} className="flex items-stretch">
