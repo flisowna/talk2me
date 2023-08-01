@@ -18,7 +18,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   background-color: var(--secondary-color);
-  font-family: 'Stag', 'sans-serif';
+  font-family: var(--font-stag), sans-serif;
   color: #333333;
 }
 
@@ -58,7 +58,7 @@ p {
 h1 {
   text-transform: uppercase;
   text-align: center;
-  /* font-family: var(--font-source-code-pro); */
+  font-family: var(--font-source-code-pro), monospace;
   font-size: 2.2rem;
   margin-bottom: 2rem;
   color: var(--primary-color);
@@ -77,7 +77,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* font-family: var(--font-source-code-pro), monospace;  */
+  font-family: var(--font-source-code-pro), monospace; 
   text-transform: uppercase;
 
 

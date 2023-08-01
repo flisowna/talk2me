@@ -2,6 +2,7 @@ type Path = { [key: string]: string };
 
 const pathsToAPITableIds: Path = {
     "climate": "dstUnsGlknmmWoDVCp",
-    "war": "dstV2ZG3aUAfW1heUj",
+    "war": "dstvdGRlFZb9AsLUrj",
+    // "racism": "dstUnsGlknmmWoDVCp",
 }
 export default pathsToAPITableIds

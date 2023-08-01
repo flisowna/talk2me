@@ -7,7 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      'mono': ['ui-monospace', 'Source Code Pro', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      fontFamily: {
+        mono: ['var(--font-source_code_pro)'],
+        sans: ['var(--font-stag)'],
+      },
     },
     colors: {
       primary: '#1C9B9A',

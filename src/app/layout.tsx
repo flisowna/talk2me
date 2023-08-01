@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import { Source_Code_Pro } from 'next/font/google'
 
 const stag = localFont({
+  variable: '--font-stag',
   src: [
     {
       path: '../../public/fonts/stag-light.ttf',
@@ -23,7 +24,12 @@ const stag = localFont({
   ],
 })
 
-const source_code_pro = Source_Code_Pro({ subsets: ['latin'] })
+const source_code_pro = Source_Code_Pro({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-source_code_pro',
+})
+
 
 export const metadata: Metadata = {
   title: 'Talk To Me - Kleiner Fünf',
@@ -36,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={stag.className}>{children}</body>
+      <body className={`${source_code_pro.variable} ${stag.variable}`}>{children}</body>
     </html>
   )
 }
