@@ -39,6 +39,7 @@ const transformedData = data.data.records.map((record: { recordId: any; fields: 
     text: record.fields['Text - Feedback to Answer B'],
   },
   answerBLeadsTo: record.fields['Answer B leads to'],  
+  gameOverText: record.fields['Game Over Text'],
 }));
 
 return transformedData;

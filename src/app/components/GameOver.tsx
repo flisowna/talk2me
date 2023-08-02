@@ -1,12 +1,12 @@
 
 import Image from "next/image";
-import GameOver from "../../../public/k5_game_over.svg";
+import GameOverImage from "../../../public/k5_game_over.svg";
 
 interface GameOverProps {
     gameOverData: string | null | undefined;
 }
 
-const Navigation: React.FC<GameOverProps> = ({gameOverData}) => {
+const GameOver: React.FC<GameOverProps> = ({gameOverData}) => {
 
   
   return (
@@ -15,10 +15,10 @@ const Navigation: React.FC<GameOverProps> = ({gameOverData}) => {
 
       
         <Image
-          src={GameOver}
+          src={GameOverImage}
           alt="game over icon"
-          width={34}
-          height={34}
+          width={150}
+          height={150}
         />
         <p>{gameOverData}</p>
       
@@ -26,4 +26,4 @@ const Navigation: React.FC<GameOverProps> = ({gameOverData}) => {
   );
 };
 
-export default Navigation;
+export default GameOver;

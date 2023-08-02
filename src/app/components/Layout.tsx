@@ -8,7 +8,6 @@ interface LayoutProps {
  
 export default function Layout({ children }: LayoutProps)  {
     const [navStatus, setNavStatus] = useState(false);
-    console.log("navStatus", navStatus)
   return (
     <>
     <div className='h-20'>
@@ -17,7 +16,6 @@ export default function Layout({ children }: LayoutProps)  {
         setNavStatus={setNavStatus}
       />
       </div>
-      <p>{navStatus}</p>
       <main>{children}</main>
     </>
   )
