@@ -23,7 +23,7 @@ if (!res.ok) {
 }
 
 const data = await res.json();
-
+console.log("foo", data.data.records)
 const transformedData = data.data.records.map((record: { recordId: any; fields: { [x: string]: any; }; }) => ({
   id: record.fields['Question ID'],
   questionText: record.fields['Question text'],

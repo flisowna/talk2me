@@ -98,9 +98,11 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
       setCurrentQuestionId(nextQuestionId);
       setQuestionNumber((prevNumber) => prevNumber + 1);
     }
-    if (questionNumber === 4 || 7 || 9) {
+
+    if ([3, 6, 9].includes(questionNumber)) {
         setShowLevelUp(true);
-    } 
+      }
+    
 };
   
 const shuffleAnswers = () => {
