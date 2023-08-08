@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         mono: ['var(--font-source_code_pro)'],
-        sans: ['var(--font-stag)'],
+        serif: ['var(--font-stag)'],
       },
     },
     colors: {

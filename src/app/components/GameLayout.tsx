@@ -13,7 +13,7 @@ export default function GameLayout({ children, currentQuestionNumber, totalQuest
     <>
     <div className='flex flex-col mx-auto relative'>
         {/* Close Button */}
-       <div className='flex justify-between'>
+       <div className='flex justify-between items-center'>
             <ProgressCircle
                 totalQuestions={totalQuestions}
                 currentQuestionNumber={currentQuestionNumber}

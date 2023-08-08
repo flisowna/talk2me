@@ -18,8 +18,9 @@ body {
   margin-left: auto;
   margin-right: auto;
   background-color: var(--secondary-color);
-  font-family: var(--font-stag), sans-serif;
+  font-family: var(--font-stag), serif;
   color: #333333;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 768px) {
@@ -58,10 +59,11 @@ p {
 h1 {
   text-transform: uppercase;
   text-align: center;
-  font-family: var(--font-source-code-pro), monospace;
+  font-family: var(--font-source_code_pro), monospace;
   font-size: 2.2rem;
   margin-bottom: 2rem;
   color: var(--primary-color);
+  font-weight: 800;
 }
 button {
   border: 2px solid #333333;
@@ -77,10 +79,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-source-code-pro), monospace; 
+  font-family: var(--font-source_code_pro), monospace;
   text-transform: uppercase;
-
-
+  font-weight: 700;
 }
 
 button:hover {

@@ -3,16 +3,18 @@ import Image from 'next/image';
  
 export default function NotFound() {
   return (
-    <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-        <Image
+    <div className='flex flex-col mx-auto justify-center items-center h-screen'>
+      <h2>404</h2>
+      <Image
             src="/404_image.svg"
             alt="404 icon"
-            width={150}
-            height={150}
+            width={300}
+            height={300}
         />
-      <Link href="/">Return Home</Link>
+      <p className='text-bold my-4'>Oops, the page you requested could not be found.</p>
+        
+      <Link href="/">
+        <button className='text-black mt-4'>Zum Spiel</button></Link>
     </div>
   )
 }

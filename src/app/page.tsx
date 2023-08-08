@@ -1,7 +1,6 @@
 import Hero from "./components/Hero";
 import { IntroBoxes } from "./components/Introboxes";
 import Layout from "./components/Layout";
-import Navigation from "./components/Navigation";
 
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
@@ -54,7 +53,7 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main>
+      <main className="mx-4">
         <Hero heroData={heroData}/>
         <IntroBoxes introBoxesData={data}/>
       </main>

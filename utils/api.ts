@@ -11,13 +11,16 @@ export async function generateStaticParams() {
 
 export async function getData( slug: string ) {
   const path = pathsToAPITableIds[slug]
-  const res = await fetch(`https://apitable.com/fusion/v1/datasheets/${path}/records`,
+  const fullApiUrl = `https://apitable.com/fusion/v1/datasheets/${path}/records`
+  console.log('fullApiUrl', fullApiUrl);
+  const res = await fetch(fullApiUrl,
     {
     headers: {
         Authorization: `Bearer ${API_TOKEN}`,
   },
+    cache: 'no-store'
 
-  })
+  }    )
 if (!res.ok) {
   throw new Error('Failed to fetch data')
 }

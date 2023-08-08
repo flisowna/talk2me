@@ -1,14 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'
-import GameOver from './GameOver';
-import GameLayout from './GameLayout';
-import Overlay from './Overlay';
-import Situation from './Situation';
-import Feedback from './Feedback';
-import WinGame from './WinGame';
-import LevelUp from './LevelUp';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import GameOver from "./GameOver";
+import GameLayout from "./GameLayout";
+import Overlay from "./Overlay";
+import Situation from "./Situation";
+import Feedback from "./Feedback";
+import WinGame from "./WinGame";
+import LevelUp from "./LevelUp";
+import GameEndNotGameOver from "./GameEndNotGameOver";
 
 interface Question {
   id: string;
@@ -29,21 +30,21 @@ interface Question {
 }
 
 interface GameProps {
-    gameData: Question[];
+  gameData: Question[];
 }
 
 const Game: React.FC<GameProps> = ({ gameData }) => {
   const router = useRouter();
   const [showOverlay, setShowOverlay] = useState(false);
-  const [currentQuestionId, setCurrentQuestionId] = useState<string>('1');
+  const [currentQuestionId, setCurrentQuestionId] = useState<string>("1");
   const [questionNumber, setQuestionNumber] = useState<number>(1);
   const [showAnswerA, setShowAnswerA] = useState<boolean>(true); // Show Answer A by default
   const [chosenAnswer, setChosenAnswer] = useState<"A" | "B" | null>(null);
   const [shownLabelA, setShownLabelA] = useState<boolean>(true);
   const [feedbackPart, setFeedbackPart] = useState<boolean>(false);
   const [showLevelUp, setShowLevelUp] = useState<boolean>(false);
+  const [gameOverText, setGameOverText] = useState<string | null>('');
   const [falseAnswerCount, setFalseAnswerCount] = useState<number>(0);
-
 
   useEffect(() => {
     setShowAnswerA(true);
@@ -53,20 +54,30 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
     setShownLabelA(true);
   }, [currentQuestionId]);
 
-  
-
   const handleSwitchAnswer = () => {
     setShowAnswerA((prevShowAnswerA) => !prevShowAnswerA);
     setShownLabelA((prevShowLabelA) => !prevShowLabelA);
   };
+
+  const showGameOver = () => currentQuestionId === "game over";
+
+  const showEndOfGame = () => currentQuestionId === "end of game not game over";
 
   const handleLeaveGame = () => {
     setShowOverlay(true);
   };
 
   const handleConfirmLeaveGame = () => {
-    router.push('/'); // Redirect to the home page
+    router.push("/"); 
   };
+
+  const handleRenewGame = () => {
+    setCurrentQuestionId("1");
+    setFalseAnswerCount(0);
+    setQuestionNumber(1);
+    setShowLevelUp(false);   
+  };
+
 
   const handleCancelLeaveGame = () => {
     setShowOverlay(false);
@@ -74,9 +85,9 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
 
   const handleConfirmAnswer = () => {
     if (showAnswerA) {
-      setChosenAnswer('A');
+      setChosenAnswer("A");
     } else {
-      setChosenAnswer('B');
+      setChosenAnswer("B");
       setFalseAnswerCount((prevCount) => prevCount + 1);
     }
     setFeedbackPart(true);
@@ -86,31 +97,36 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
     setFeedbackPart(false);
     const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
     if (!currentQuestion) {
-        return;
-      }
+      return;
+    }
     const nextQuestionId = showAnswerA
       ? currentQuestion.answerALeadsTo
       : currentQuestion.answerBLeadsTo;
-  
+
     if (nextQuestionId === null) {
-      console.log('no more questions') // Redirect back to the starting page
+      console.log("no more questions");
     } else {
       setCurrentQuestionId(nextQuestionId);
       setQuestionNumber((prevNumber) => prevNumber + 1);
     }
 
+    if(nextQuestionId === "game over") {
+      setGameOverText(currentQuestion.gameOverText)
+    } else if(nextQuestionId === "end of game not game over") {
+      setGameOverText(currentQuestion.gameOverText)
+    } 
+
     if ([3, 6, 9].includes(questionNumber)) {
-        setShowLevelUp(true);
-      }
-    
-};
-  
-const shuffleAnswers = () => {
-    const random =  Math.random() < 0.5
+      setShowLevelUp(true);
+    }
+  };
+
+  const shuffleAnswers = () => {
+    const random = Math.random() < 0.5;
     if (random) {
-        setShowAnswerA(true);
+      setShowAnswerA(true);
     } else {
-        setShowAnswerA(false);
+      setShowAnswerA(false);
     }
   };
 
@@ -120,49 +136,62 @@ const shuffleAnswers = () => {
 
   const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
 
-  if (currentQuestionId === 'game over') {
-    return(
-    <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
-        <GameOver gameOverData={currentQuestion?.gameOverText} />
-    </GameLayout>) ;
+  if (showGameOver() || falseAnswerCount >= 3) {
+    return (
+      <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
+        <GameOver gameOverData={gameOverText} handleRenewGame={handleRenewGame} handleConfirmLeaveGame={handleConfirmLeaveGame}/>
+      </GameLayout>
+    );
   }
 
-  if (currentQuestionId === 'end of game') {
-    return(
-    <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
-        <WinGame handleConfirmLeaveGame={handleConfirmLeaveGame} />
-    </GameLayout>) ;
+  if (showEndOfGame()) {
+    return (
+      <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
+        <GameEndNotGameOver gameEndNotGameOverData={gameOverText} handleRenewGame={handleRenewGame} handleConfirmLeaveGame={handleConfirmLeaveGame}/>
+      </GameLayout>
+    );
   }
 
+  if (currentQuestionId === "end of game") {
+    return (
+      <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
+        <WinGame winText={currentQuestion?.gameOverText} handleConfirmLeaveGame={handleConfirmLeaveGame} />
+      </GameLayout>
+    );
+  }
 
-
-  
-  if (!currentQuestion) {
-    return <div>Question not found</div>;
-    }
+  if (currentQuestion == null) {
+    return <div className="flex items-center justify-center h-full">Question not found</div>;
+  }
 
   return (
-    
-    <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10} handleLeaveGame={handleLeaveGame}>
+    <GameLayout
+      currentQuestionNumber={questionNumber}
+      totalQuestions={10}
+      handleLeaveGame={handleLeaveGame}
+    >
       {showOverlay && (
-        <Overlay handleCancelLeaveGame={handleCancelLeaveGame} handleConfirmLeaveGame={handleConfirmLeaveGame}/>
+        <Overlay
+          handleCancelLeaveGame={handleCancelLeaveGame}
+          handleConfirmLeaveGame={handleConfirmLeaveGame}
+        />
       )}
-       {(!feedbackPart && !showLevelUp) &&(
-      <Situation 
-        chosenAnswer={chosenAnswer}
-        showAnswerA={showAnswerA}
-        handleConfirmAnswer={handleConfirmAnswer}
-        handleSwitchAnswer={handleSwitchAnswer}
-        questionNumber={questionNumber}
-        questionText={currentQuestion.questionText}
-        answerA={currentQuestion.answerA}
-        answerB={currentQuestion.answerB}
-        shownLabelA={shownLabelA}
-      />
-    )}
-      
+      {!feedbackPart && !showLevelUp && (
+        <Situation
+          chosenAnswer={chosenAnswer}
+          showAnswerA={showAnswerA}
+          handleConfirmAnswer={handleConfirmAnswer}
+          handleSwitchAnswer={handleSwitchAnswer}
+          questionNumber={questionNumber}
+          questionText={currentQuestion.questionText}
+          answerA={currentQuestion.answerA}
+          answerB={currentQuestion.answerB}
+          shownLabelA={shownLabelA}
+        />
+      )}
+
       {feedbackPart && (
-        <Feedback 
+        <Feedback
           chosenAnswer={chosenAnswer}
           titleA={currentQuestion.feedbackA.title}
           textA={currentQuestion.feedbackA.text}
@@ -170,15 +199,15 @@ const shuffleAnswers = () => {
           textB={currentQuestion.feedbackB.text}
           handleNextQuestion={handleNextQuestion}
         />
-        )}
-        {showLevelUp && (
-            <LevelUp questionNumber={questionNumber} setShowLevelUpFalse={() => setShowLevelUp(false)} />
-        )}
-
-      
+      )}
+      {showLevelUp && (
+        <LevelUp
+          questionNumber={questionNumber}
+          setShowLevelUpFalse={() => setShowLevelUp(false)}
+        />
+      )}
     </GameLayout>
   );
 };
 
 export default Game;
-
