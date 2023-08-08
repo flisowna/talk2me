@@ -9,21 +9,22 @@ import Logo from "../../../public/k5_logo.svg";
 
 const Navigation = ({ navStatus, setNavStatus }: INavLinksData) => {
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    const menuElement = document.querySelector(".menu-container");
-    if (menuElement && !menuElement.contains(e.target as Node)) {
-      setNavStatus(false);
-    }
-  };
+  
 
   useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const menuElement = document.querySelector(".menu-container");
+      if (menuElement && !menuElement.contains(e.target as Node)) {
+        setNavStatus(false);
+      }
+    };
     if (navStatus) {
       document.addEventListener("click", handleOutsideClick);
     }
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [navStatus]);
+  }, [navStatus, setNavStatus]);
 
   return (
     <div className="flex justify-between items-center">
