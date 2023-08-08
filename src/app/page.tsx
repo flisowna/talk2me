@@ -11,7 +11,6 @@ async function getData() {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
-
     })
 
   if (!res.ok) {

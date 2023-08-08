@@ -25,7 +25,7 @@ export const Navbar = ({ navStatus, setNavStatus }: INavLinksData) => {
     { title: "press", link: "/press" },
     { title: "rechtliches", link: "/rechtliches" },
   ];
-  // "translate-x-0%" : "translate-x-100%"
+  
   return (
     <nav
       className={`fixed top-0 right-0 p-4 h-[535px] w-[372px] border-2 border-black/60 bg-[#F1F1FF] shadow-md transition-all duration-300 flex justify-center z-10 ${
