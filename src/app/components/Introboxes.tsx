@@ -27,15 +27,15 @@ const GameStoryBox = ({ box, image }: { box: IIntroBox; image: StaticImageData }
     key={box.title}
     className="flex flex-row relative md:flex-col items-center cursor-pointer md:max-w-xs px-6 py-4 text-left text-black transition-colors duration-150 shadow-md bg-white hover:text-teal-500"
   >
-    <div className="flex relative mb-4 mx-auto min-w-[10rem] p-2 max-h-[10rem] md:max-h-none">
+    <div className="flex relative mb-4 mx-auto min-w-[8rem] md:min-w-[10rem] p-2 max-h-[10rem] md:max-h-none">
       <Image src={image} alt={box.title} height={200} style={{
         objectFit: "contain",
       }} />
 
     </div>
     <div className="mb-2 ml-2 md:ml-0">
-      <h2 className="text-xl font-semibold ">{box.title}</h2>
-      <p className="text-sm font-light mb-4 hover:text-primary">{box.text}</p>
+      <h2>{box.title}</h2>
+      <p className="font-light mb-4 hover:text-primary">{box.text}</p>
     </div>
     <div className="absolute cursor-pointer right-0 bottom-0 hover:opacity-80">
       <Image src="/arrow_icon.svg" width="40" height="40" alt="go forward" />

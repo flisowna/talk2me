@@ -7,6 +7,19 @@
 :root {
   --primary-color: #1C9B9A;
   --secondary-color: #F1F1FF;
+  --base-rem: 16px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --base-rem: 14px; 
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --base-rem: 18px; 
+}
 }
 
 html,
@@ -26,9 +39,10 @@ body {
 @media (max-width: 768px) {
   html,
   body {
-    width: 100%;
+    width: 94%;
     margin-top: 0.8rem;
-
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -41,12 +55,10 @@ a {
   box-sizing: border-box;
 }
 h2 {
-  color: var(--primary-color);
-  font-size: 2rem;
+  font-size: 1rem;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
   font-weight: 900;
-  text-transform: uppercase;
 }
 
 
@@ -58,10 +70,8 @@ p {
 
 h1 {
   text-transform: uppercase;
-  text-align: center;
   font-family: var(--font-source_code_pro), monospace;
   font-size: 2.2rem;
-  margin-bottom: 2rem;
   color: var(--primary-color);
   font-weight: 800;
 }

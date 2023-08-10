@@ -52,7 +52,7 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main className="mx-4 md:mx-0">
+      <main>
         <Hero heroData={heroData}/>
         <IntroBoxes introBoxesData={data}/>
       </main>
