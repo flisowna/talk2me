@@ -10,7 +10,7 @@ export async function getData(slug: string) {
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
     },
-    cache: 'no-store'
+    // cache: 'no-store'
   });
   if (!res.ok) {
     throw new Error("Failed to fetch data");
