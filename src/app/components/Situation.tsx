@@ -15,7 +15,7 @@ const Situation: React.FC<SituationProps> = ({answerA, answerB, chosenAnswer, sh
   
   return (
     <div className='max-w-2xl mx-auto'>
-        <h1>Situation {questionNumber}</h1>
+        <h1 className="md:text-center md:mb-4">Situation {questionNumber}</h1>
         <p className='max-w-lg mx-auto mb-8'>{questionText}</p>
         <div className='bg-white max-w-xs p-4 mx-auto mb-10 relative z-10'>
           <span className='font-mono text-md p-2 w-10 text-center font-bold mr-2 text-white bg-primary absolute -top-2 left-0 '>
