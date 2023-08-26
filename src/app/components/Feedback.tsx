@@ -18,7 +18,7 @@ const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB,
     <div className='mx-auto max-w-2xl'>
           
             <>
-              <h2 className='text-center'>{chosenAnswer === 'A' ? titleA : titleB}</h2>
+              <h1 className='md:text-center'>{chosenAnswer === 'A' ? titleA : titleB}</h1>
               <div className="flex relative mx-auto min-w-[10rem] p-2 max-h-[10rem] md:max-h-none justify-center items-center mb-8">
                 <Image src={chosenAnswer === 'A' ? Positive : Negative} alt='positive feedback' height={140} style={{
                     objectFit: "contain",

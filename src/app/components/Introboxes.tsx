@@ -25,7 +25,7 @@ export interface IntroBoxesProps {
 const GameStoryBox = ({ box, image }: { box: IIntroBox; image: StaticImageData }) => (
   <div
     key={box.title}
-    className="flex flex-row relative md:flex-col items-center cursor-pointer md:max-w-xs px-6 py-4 text-left text-black transition-colors duration-150 shadow-md bg-white hover:text-teal-500"
+    className="flex max-[440px]:flex-col flex-row relative md:flex-col items-center cursor-pointer md:max-w-xs px-6 py-4 text-left text-black transition-colors duration-150 shadow-md bg-white hover:text-teal-500"
   >
     <div className="flex relative mb-4 mx-auto min-w-[8rem] md:min-w-[10rem] p-2 max-h-[10rem] md:max-h-none">
       <Image src={image} alt={box.title} height={200} style={{

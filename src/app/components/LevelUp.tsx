@@ -31,7 +31,7 @@ const LevelUp: React.FC<LevelUpProps> = ({questionNumber, setShowLevelUpFalse })
   
   return (
     <div className='mx-auto max-w-2xl flex flex-col items-center'>
-        <h1>superkraft #{superPower}</h1>
+        <h1 className="md:text-center">superkraft #{superPower}</h1>
         <Image src={levelUpImage} alt='superkraft image' height={180} style={{objectFit: "contain",}} />
         <p className="mb-4 mt-6">{text}</p>
         <button onClick={setShowLevelUpFalse}>Weiterspielen</button>
