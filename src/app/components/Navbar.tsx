@@ -28,7 +28,7 @@ export const Navbar = ({ navStatus, setNavStatus }: INavLinksData) => {
   
   return (
     <nav
-      className={`fixed top-0 right-0 p-4 h-[535px] w-[372px] border-2 border-black/60 bg-[#F1F1FF] shadow-md transition-all duration-300 flex justify-center z-10 ${
+      className={`fixed top-0 right-0 p-4 h-full md:h-[535px] w-full md:w-[372px] border-2 border-black/60 bg-[#F1F1FF] shadow-md transition-all duration-300 flex justify-center z-10 ${
         navStatus ? "translate-x-0" : "translate-x-full"
       }`}
     >
