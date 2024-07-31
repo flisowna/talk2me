@@ -4,7 +4,7 @@ const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
 export async function getData(slug: string) {
   const path = pathsToAPITableIds[slug];
-  const fullApiUrl = `https://apitable.com/fusion/v1/datasheets/${path}/records`;
+  const fullApiUrl = `https://aitable.ai/fusion/v1/datasheets/${path}/records?viewId=viwH2eQXnQbEx&fieldKey=name`;
   console.log("fullApiUrl", fullApiUrl);
   const res = await fetch(fullApiUrl, {
     headers: {
