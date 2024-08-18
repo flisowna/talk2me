@@ -6,7 +6,7 @@ export default async function Page() {
     return (
       <Layout>
       <main>
-        about us
+        rechtliches
       </main>
       </Layout>
     );
