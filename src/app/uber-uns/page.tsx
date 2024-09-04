@@ -1,12 +1,34 @@
 import Layout from "../components/Layout";
 import MarkdownContent from "../components/MarkdownContent";
+import { fetchInfoPageData, InfoPageData } from '../../utils/api'
 
-export default function Page() {
+
+// Define the props for the Page component
+interface PageProps {
+  data?: InfoPageData;
+  error?: string;
+}
+
+export default async function Page() {
+  let data: InfoPageData | null = null;
+  let error: string | null = null;
+
+  try {
+    data = await fetchInfoPageData();
+  } catch (e) {
+    console.error('Error fetching data:', e);
+    error = 'Failed to load content. Please try again later.';
+  }
+
   return (
     <Layout>
       <main>
-        <h1>Über uns</h1>
-        <MarkdownContent pageName="ueber-uns" />
+        <h1>uber uns</h1>
+        {error ? (
+          <div className="error">{error}</div>
+        ) : (
+          data && <MarkdownContent content={data["ueber-uns"]} />
+        )}
       </main>
     </Layout>
   );

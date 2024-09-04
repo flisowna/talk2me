@@ -39,3 +39,41 @@ export async function getData(slug: string) {
 
   return transformedData;
 }
+
+
+export interface InfoPageData {
+  'ueber-das-spiel': string;
+  'ueber-uns': string;
+  'press': string;
+  'rechtliches': string;
+}
+
+export async function fetchInfoPageData(): Promise<InfoPageData> {
+  const res = await fetch(
+    `https://aitable.ai/fusion/v1/datasheets/dst8ZkSQfjEcdHAV8w/records?viewId=viwl5SkkMCQTD&fieldKey=name`,
+    {
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const data = await res.json();
+
+  if (!data || !data.success || !data.data || !data.data.records || !Array.isArray(data.data.records)) {
+    throw new Error('Invalid response format');
+  }
+
+  const fields = data.data.records[0].fields;
+  
+  return {
+    'ueber-das-spiel': fields['ueber das spiel'] || '',
+    'ueber-uns': fields['ueber uns'] || '',
+    'press': fields['press'] || '',
+    'rechtliches': fields['rechtliches'] || '',
+  };
+}

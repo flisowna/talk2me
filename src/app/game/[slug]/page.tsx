@@ -1,6 +1,6 @@
-import {getData} from '../../../../utils/api';
+import {getData} from '../../../utils/api';
 import Game from '@/app/components/Game';
-import pathsToAPITableIds from '../../../../utils/mapping';
+import pathsToAPITableIds from '../../../utils/mapping';
 
 
 export async function generateStaticParams() {
