@@ -55,6 +55,7 @@ export async function fetchInfoPageData(): Promise<InfoPageData> {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
+      cache: 'no-store'
     }
   );
 

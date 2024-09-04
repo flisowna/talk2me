@@ -23,7 +23,7 @@ export default async function Page() {
   return (
     <Layout>
       <main>
-        <h1>uber uns</h1>
+        <h1>über uns</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (

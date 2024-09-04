@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import MarkdownContent from "../components/MarkdownContent";
 import { fetchInfoPageData, InfoPageData } from '../../utils/api'
+import styles from './rechtliches.module.css';
 
 
 // Define the props for the Page component
@@ -22,8 +23,8 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main>
-        <h1>rechliches</h1>
+      <main className={styles.centeredContent}>
+        <h1 className={styles.title}>Rechtliches</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (

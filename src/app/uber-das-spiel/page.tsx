@@ -2,7 +2,6 @@ import Layout from "../components/Layout";
 import MarkdownContent from "../components/MarkdownContent";
 import { fetchInfoPageData, InfoPageData } from '../../utils/api'
 
-
 // Define the props for the Page component
 interface PageProps {
   data?: InfoPageData;
@@ -23,7 +22,7 @@ export default async function Page() {
   return (
     <Layout>
       <main>
-        <h1>uber das spiel</h1>
+        <h1>über das spiel</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (
