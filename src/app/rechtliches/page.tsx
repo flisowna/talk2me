@@ -1,13 +1,13 @@
 import Layout from "../components/Layout";
+import MarkdownContent from "../components/MarkdownContent";
 
-export default async function Page() {
-    
-  
-    return (
-      <Layout>
+export default function Page() {
+  return (
+    <Layout>
       <main>
-        rechtliches
+        <h1>rechtliches</h1>
+        <MarkdownContent pageName="rechtliches" />
       </main>
-      </Layout>
-    );
-  }
+    </Layout>
+  );
+}
