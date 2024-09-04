@@ -2,7 +2,6 @@ import Hero from "./components/Hero";
 import { IntroBoxes } from "./components/Introboxes";
 import Layout from "./components/Layout";
 
-
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
 async function getData() {
@@ -19,9 +18,7 @@ async function getData() {
 
   const data = await res.json();
 
-
   if (!data || !data.success || !data.data || !data.data.records || !Array.isArray(data.data.records)) {
-    
     throw new Error('Invalid response format');
   }
 
@@ -35,20 +32,19 @@ async function getData() {
     aboutUs: record.fields['uber uns'],
     link: record.fields['link'],
     image: record.fields['Game image']
-  }));
+    }));
 
-  return transformedData;
+    return transformedData;
 }
-
-const heroData = {
-  title: "talk to me",
-  subtitle: "Von Kleiner Fünf",
-  description: "Hallo! Hat sich deine Freundin oder dein Verwandter von Verschwörungen und Fehlinformationen verleiten lassen? Verschwörungsmythen können uns alle beeinflussen. Während die einen versuchen, 'die Welt wachzurütteln', tun sich die anderen damit schwer, den richtigen Weg zu finden, um mit ihnen zu reden."
-};
-
 
 export default async function Page() {
   const data = await getData();
+
+  const heroData = {
+    title: "talk to me",
+    subtitle: "Von Kleiner Fünf",
+    description: data[0]?.introText
+  };
 
   return (
     <Layout>
@@ -59,6 +55,3 @@ export default async function Page() {
     </Layout>
   );
 }
-
-
-

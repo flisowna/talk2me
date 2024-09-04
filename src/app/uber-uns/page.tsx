@@ -5,9 +5,9 @@ export default async function Page() {
   
     return (
       <Layout>
-      <main>
-        about us
-      </main>
+        <main>
+          about us
+        </main>
       </Layout>
     );
   }
