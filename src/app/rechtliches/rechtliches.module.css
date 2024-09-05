@@ -1,11 +1,15 @@
-.centeredContent {
+.content {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
   }
-  
-  .title {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
+
+  @media (max-width: 768px) {
+    .content {
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+}

@@ -23,8 +23,8 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main className={styles.centeredContent}>
-        <h1 className={styles.title}>Rechtliches</h1>
+      <main className={styles.content}>
+        <h1>Rechtliches</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (

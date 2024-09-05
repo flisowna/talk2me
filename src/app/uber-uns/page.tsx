@@ -22,7 +22,7 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main className="md:mx-28">
+      <main className="md:mx-28 mb-8">
         <h1 className="md:text-center">über uns</h1>
         {error ? (
           <div className="error">{error}</div>
