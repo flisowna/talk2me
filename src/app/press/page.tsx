@@ -22,8 +22,8 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main className="md:mx-20">
-        <h1>press</h1>
+      <main className="md:mx-24">
+        <h1 className="md:text-center">press</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (

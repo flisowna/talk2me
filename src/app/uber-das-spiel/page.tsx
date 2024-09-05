@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import MarkdownContent from "../components/MarkdownContent";
 import { fetchInfoPageData, InfoPageData } from '../../utils/api'
+import styles from './uber-das-spiel.module.css';
 
 // Define the props for the Page component
 interface PageProps {
@@ -21,8 +22,8 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main className="md:mx-20">
-        <h1>über das spiel</h1>
+      <main className={styles.spiel}>
+        <h1 className="md:text-center">über das spiel</h1>
         {error ? (
           <div className="error">{error}</div>
         ) : (
