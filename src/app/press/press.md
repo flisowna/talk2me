@@ -1,0 +1,21 @@
+---
+links:
+    - image: "/business-punk.svg"
+      link: "https://www.business-punk.com/2020/10/talk-to-me-mit-dieser-app-werdet-ihr-schlagfertiger-gegenueber-corona-leugnenden/"
+      alt: "business-punk icon"
+    - image: "/gruenderszene.svg"
+      link: "https://www.gruenderszene.de/media/talk-to-me-corona-leugner-verschwoerungstheorien"
+      alt: "gruenderszene icon"
+    - image: "/nius.svg"
+      link: "https://www.niusdiario.es/internacional/europa/app-berlinesa-ayudar-hablar-negacionistas-pandemia_18_3037395302.html"
+      alt: "nius icon"
+    - image: "/stuttgarter-zeitung.svg"
+      link: "https://www.stuttgarter-zeitung.de/inhalt.website-talk-to-me-spielerisch-lernen-mit-verschwoerungstheoretikern-umzugehen.16cbbf22-7fe4-4569-910b-317d789140c7.html"
+      alt: "stuttgarter-zeitun icon"
+    - image: "/t3n.svg"
+      link: "https://t3n.de/news/talk-me-diese-app-coronaleugner-1332274/"
+      alt: "t3n icon"
+    - image: "/welt.svg"
+      link: "https://www.welt.de/wirtschaft/gruenderszene/article218953190/Talk-To-Me-Mit-dieser-Web-App-entwaffnen-Sie-jeden-Corona-Leugner.html"
+      alt: "welt icon"  
+---

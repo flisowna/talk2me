@@ -1,0 +1,25 @@
+.links_container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 3rem
+}
+
+.image_card {
+    width: 120px;
+    height: 70px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .links_container {
+        justify-content: flex-start; 
+    }
+
+    .image_card {
+        min-width: 100px;
+        min-height: 50px;
+        position: relative;
+    }
+}

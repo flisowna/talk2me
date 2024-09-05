@@ -21,6 +21,7 @@
     "dotenv": "^16.3.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.11",
+    "gray-matter": "^4.0.3",
     "init": "^0.1.2",
     "next": "13.4.11",
     "postcss": "8.4.27",
