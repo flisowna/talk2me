@@ -12,7 +12,7 @@ type Props = {
 
 const Hero = ({ heroData }: Props) => {
   return (
-    <section className="py-5 max-w-7xl">
+    <section className="py-5 max-w-6xl md:mx-20">
       <h1 className="font-extrabold md:text-center text-gray-900">
         {heroData.title}
       </h1>

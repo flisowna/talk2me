@@ -21,7 +21,7 @@ export default async function Page() {
 
   return (
     <Layout>
-      <main>
+      <main className="md:mx-20">
         <h1>über das spiel</h1>
         {error ? (
           <div className="error">{error}</div>
