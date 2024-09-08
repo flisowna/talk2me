@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Negative from "../../../public/k5_image_negative_feedback.svg";
 import Positive from "../../../public/k5_image_positive_feedback.svg";
+import ReactMarkdown from 'react-markdown';
+
 
 interface FeedbackProps {
     chosenAnswer: "A" | "B" | null;
@@ -25,7 +27,11 @@ const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB,
                 }} />
 
               </div>
-              <p className='max-w-lg mx-auto'>{chosenAnswer === 'A' ? textA : textB}</p>
+              <p className='max-w-lg mx-auto'>
+                <ReactMarkdown>
+                  {chosenAnswer === 'A' ? textA : textB}
+                </ReactMarkdown>
+              </p>
             </>
           <div className='justify-center flex mt-8'>
           <button onClick={handleNextQuestion}>Weiterspielen</button>
