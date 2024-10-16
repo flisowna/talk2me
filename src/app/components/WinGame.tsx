@@ -13,7 +13,7 @@ const WinGame: React.FC<WinGameProps> = ({handleConfirmLeaveGame, winText}) => {
   
   return (
     <div className="flex justify-between items-center mx-auto max-w-lg flex-col">
-        <h2 className="mb-4">herzlichen glückwunsch</h2>
+        <h2 className="mb-4">Herzlichen Glückwunsch</h2>
         <Image
           src={Win}
           alt="game over icon"
