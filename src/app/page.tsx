@@ -5,7 +5,7 @@ import Layout from "./components/Layout";
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
 async function getData() {
-  const res = await fetch(`https://aitable.ai/fusion/v1/datasheets/dstvJgrcozzT3SjEY3/records?viewId=viw3nqBg0Jwid&fieldKey=name`,
+  const res = await fetch(`https://aitable.ai/fusion/v1/datasheets/dstvJgrcozzT3SjEY3/records`,
     {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
