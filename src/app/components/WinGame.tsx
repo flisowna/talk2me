@@ -7,7 +7,6 @@ interface WinGameProps {
     winText: string | null | undefined;
 }
 
-
 const WinGame: React.FC<WinGameProps> = ({handleConfirmLeaveGame, winText}) => {
 
   
