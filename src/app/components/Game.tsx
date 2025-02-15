@@ -33,6 +33,17 @@ interface GameProps {
   gameData: Question[];
 }
 
+interface GameStateSnapshot {
+  currentQuestionId: string;
+  questionNumber: number;
+  showAnswerA: boolean;
+  chosenAnswer: "A" | "B" | null;
+  shownLabelA: boolean;
+  feedbackPart: boolean;
+  showLevelUp: boolean;
+  falseAnswerCount: number;
+}
+
 const Game: React.FC<GameProps> = ({ gameData }) => {
   const router = useRouter();
   const [showOverlay, setShowOverlay] = useState(false);
@@ -54,10 +65,29 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
     setShownLabelA(true);
   }, [currentQuestionId]);
 
+  useEffect(() => {
+    if (gameData.length > 0) {
+      const initialSnapshot: GameStateSnapshot = {
+        currentQuestionId: "1",
+        questionNumber: 1,
+        showAnswerA: true,
+        chosenAnswer: null,
+        shownLabelA: true,
+        feedbackPart: false,
+        showLevelUp: false,
+        falseAnswerCount: 0,
+      };
+  
+      setHistory([initialSnapshot]);
+    }
+  }, [gameData]);
+
   const handleSwitchAnswer = () => {
     setShowAnswerA((prevShowAnswerA) => !prevShowAnswerA);
     setShownLabelA((prevShowLabelA) => !prevShowLabelA);
   };
+
+  const [history, setHistory] = useState<GameStateSnapshot[]>([]);
 
   const showGameOver = () => currentQuestionId === "game over";
 
@@ -103,6 +133,19 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
       ? currentQuestion.answerALeadsTo
       : currentQuestion.answerBLeadsTo;
 
+    const currentSnapshot: GameStateSnapshot = {
+      currentQuestionId,
+      questionNumber,
+      showAnswerA,
+      chosenAnswer,
+      shownLabelA,
+      feedbackPart,
+      showLevelUp,
+      falseAnswerCount,
+    };
+
+    setHistory((prev) => [...prev, currentSnapshot]);
+
     if (nextQuestionId === null) {
       console.log("no more questions");
     } else {
@@ -120,6 +163,33 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
       setShowLevelUp(true);
     }
   };
+
+  const handleBack = () => {
+    // Only go back if we have at least 2 snapshots.
+    // (One is the current snapshot, the second-last is the previous one.)
+    if (history.length > 1) {
+      setHistory((prevHistory) => {
+        const newHistory = [...prevHistory];
+        // Remove the top snapshot (the "current" one)
+        newHistory.pop();
+        // The new top is the "previous" snapshot we want to restore
+        const previousState = newHistory[newHistory.length - 1];
+  
+        // Restore everything
+        setCurrentQuestionId(previousState.currentQuestionId);
+        setQuestionNumber(previousState.questionNumber);
+        setShowAnswerA(previousState.showAnswerA);
+        setChosenAnswer(previousState.chosenAnswer);
+        setShownLabelA(previousState.shownLabelA);
+        setFeedbackPart(previousState.feedbackPart);
+        setShowLevelUp(previousState.showLevelUp);
+        setFalseAnswerCount(previousState.falseAnswerCount);
+  
+        return newHistory;
+      });
+    }
+  };
+  
 
   const shuffleAnswers = () => {
     const random = Math.random() < 0.5;
@@ -198,6 +268,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           titleB={currentQuestion.feedbackB.title}
           textB={currentQuestion.feedbackB.text}
           handleNextQuestion={handleNextQuestion}
+          handleBack={handleBack}
         />
       )}
       {showLevelUp && (
