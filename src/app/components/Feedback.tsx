@@ -11,6 +11,7 @@ interface FeedbackProps {
     titleB: string;
     textB: string;
     handleNextQuestion: () => void;
+    handleBack: () => void;
 }
 
 const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB, textB, handleNextQuestion }) => {
@@ -34,7 +35,10 @@ const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB,
               </p>
             </>
           <div className='justify-center flex mt-8'>
-          <button onClick={handleNextQuestion}>Weiterspielen</button>
+          {/* <button onClick={handleBack}>
+              Zurück
+            </button> */}
+            <button onClick={handleNextQuestion}>Weiterspielen</button>
           </div>
         </div>
   );
