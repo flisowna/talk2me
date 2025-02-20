@@ -10,7 +10,7 @@ async function getData() {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
-      cache: "no-store"
+      // cache: "no-store"
     })
 
   if (!res.ok) {
