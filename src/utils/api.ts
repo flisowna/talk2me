@@ -1,11 +1,12 @@
 import pathsToAPITableIds from "./mapping";
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP; 
 
 export async function getData(slug: string) {
   const path = pathsToAPITableIds[slug];
-  const fullApiUrl = `https://aitable.ai/fusion/v1/datasheets/${path}/records?viewId=viwH2eQXnQbEx&fieldKey=name`;
-  console.log("fullApiUrl", fullApiUrl);
+  const fullApiUrl = `https://aitable.ai/fusion/v1/datasheets/${path}/records?viewId=viwH2eQXnQbEx&fieldKey=name&build=${BUILD_ID}`;
+  
   const res = await fetch(fullApiUrl, {
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
@@ -50,7 +51,7 @@ export interface InfoPageData {
 
 export async function fetchInfoPageData(): Promise<InfoPageData> {
   const res = await fetch(
-    `https://aitable.ai/fusion/v1/datasheets/dst8ZkSQfjEcdHAV8w/records?viewId=viwl5SkkMCQTD&fieldKey=name`,
+    `https://aitable.ai/fusion/v1/datasheets/dst8ZkSQfjEcdHAV8w/records?viewId=viwl5SkkMCQTD&fieldKey=name&build=${BUILD_ID}`,
     {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
