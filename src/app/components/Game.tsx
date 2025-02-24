@@ -257,6 +257,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           shownLabelA={shownLabelA}
         />
       )}
+      
 
       {feedbackPart && (
         <Feedback
