@@ -12,9 +12,10 @@ interface FeedbackProps {
     textB: string;
     handleNextQuestion: () => void;
     handleBack: () => void;
+    canGoBack: boolean;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB, textB, handleNextQuestion }) => {
+const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB, textB, handleNextQuestion, handleBack, canGoBack, }) => {
 
   
   return (
@@ -34,10 +35,12 @@ const Feedback: React.FC<FeedbackProps> = ({chosenAnswer, titleA, textA, titleB,
                 </ReactMarkdown>
               </p>
             </>
-          <div className='justify-center flex mt-8'>
-          {/* <button onClick={handleBack}>
-              Zurück
-            </button> */}
+          <div className='justify-center flex mt-8 gap-4'>
+            {canGoBack && (
+              <button onClick={handleBack}>
+                Zurück
+              </button>
+            )}
             <button onClick={handleNextQuestion}>Weiterspielen</button>
           </div>
         </div>

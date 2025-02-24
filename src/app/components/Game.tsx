@@ -56,6 +56,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   const [showLevelUp, setShowLevelUp] = useState<boolean>(false);
   const [gameOverText, setGameOverText] = useState<string | null>('');
   const [falseAnswerCount, setFalseAnswerCount] = useState<number>(0);
+  const [backUsed, setBackUsed] = useState<boolean>(false);
 
   useEffect(() => {
     setShowAnswerA(true);
@@ -63,6 +64,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
     setFeedbackPart(false);
     shuffleAnswers();
     setShownLabelA(true);
+    setBackUsed(false);
   }, [currentQuestionId]);
 
   useEffect(() => {
@@ -165,30 +167,26 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   };
 
   const handleBack = () => {
-    // Only go back if we have at least 2 snapshots.
-    // (One is the current snapshot, the second-last is the previous one.)
-    if (history.length > 1) {
-      setHistory((prevHistory) => {
-        const newHistory = [...prevHistory];
-        // Remove the top snapshot (the "current" one)
-        newHistory.pop();
-        // The new top is the "previous" snapshot we want to restore
-        const previousState = newHistory[newHistory.length - 1];
+    if (history.length > 0) {
+      const lastSnapshot = history[history.length - 1];
   
-        // Restore everything
-        setCurrentQuestionId(previousState.currentQuestionId);
-        setQuestionNumber(previousState.questionNumber);
-        setShowAnswerA(previousState.showAnswerA);
-        setChosenAnswer(previousState.chosenAnswer);
-        setShownLabelA(previousState.shownLabelA);
-        setFeedbackPart(previousState.feedbackPart);
-        setShowLevelUp(previousState.showLevelUp);
-        setFalseAnswerCount(previousState.falseAnswerCount);
+      // Restore previous state values
+      setCurrentQuestionId(lastSnapshot.currentQuestionId);
+      setQuestionNumber(lastSnapshot.questionNumber);
+      setShowAnswerA(lastSnapshot.showAnswerA);
+      setChosenAnswer(lastSnapshot.chosenAnswer);
+      setShownLabelA(lastSnapshot.shownLabelA);
+      setShowLevelUp(lastSnapshot.showLevelUp);
+      setFalseAnswerCount(lastSnapshot.falseAnswerCount);
   
-        return newHistory;
-      });
+      setFeedbackPart(false);
+  
+      setHistory((prev) => prev.slice(0, prev.length - 1));
+
+      setBackUsed(true);
     }
   };
+  
   
 
   const shuffleAnswers = () => {
@@ -269,6 +267,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           textB={currentQuestion.feedbackB.text}
           handleNextQuestion={handleNextQuestion}
           handleBack={handleBack}
+          canGoBack={!backUsed}
         />
       )}
       {showLevelUp && (
