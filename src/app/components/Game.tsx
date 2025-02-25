@@ -57,15 +57,20 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   const [gameOverText, setGameOverText] = useState<string | null>('');
   const [falseAnswerCount, setFalseAnswerCount] = useState<number>(0);
   const [backUsed, setBackUsed] = useState<boolean>(false);
+  const [currentSnapshot, setCurrentSnapshot] = useState<GameStateSnapshot | null>(null);
 
-  useEffect(() => {
-    setShowAnswerA(true);
-    setChosenAnswer(null);
-    setFeedbackPart(false);
-    shuffleAnswers();
-    setShownLabelA(true);
-    setBackUsed(false);
-  }, [currentQuestionId]);
+
+  
+useEffect(() => {
+  setShowAnswerA(true);
+  setChosenAnswer(null);
+  setFeedbackPart(false);
+  shuffleAnswers();
+  setShownLabelA(true);
+  setBackUsed(false);
+  // Optionally clear currentSnapshot here if needed:
+  setCurrentSnapshot(null);
+}, [currentQuestionId]);
 
   useEffect(() => {
     if (gameData.length > 0) {
@@ -116,6 +121,21 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   };
 
   const handleConfirmAnswer = () => {
+    // Capture the snapshot of the current question's state (pre-feedback)
+    const snapshot: GameStateSnapshot = {
+      currentQuestionId,
+      questionNumber,
+      showAnswerA,
+      chosenAnswer, // will be updated immediately below if needed
+      shownLabelA,
+      feedbackPart, // currently false
+      showLevelUp,
+      falseAnswerCount,
+    };
+    setCurrentSnapshot(snapshot);
+    setBackUsed(false); // Reset back for this question
+  
+    // Set the chosen answer and update falseAnswerCount if needed
     if (showAnswerA) {
       setChosenAnswer("A");
     } else {
@@ -126,7 +146,10 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   };
 
   const handleNextQuestion = () => {
+    // Clear the current snapshot when moving to the next question
+    setCurrentSnapshot(null);
     setFeedbackPart(false);
+  
     const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
     if (!currentQuestion) {
       return;
@@ -134,55 +157,37 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
     const nextQuestionId = showAnswerA
       ? currentQuestion.answerALeadsTo
       : currentQuestion.answerBLeadsTo;
-
-    const currentSnapshot: GameStateSnapshot = {
-      currentQuestionId,
-      questionNumber,
-      showAnswerA,
-      chosenAnswer,
-      shownLabelA,
-      feedbackPart,
-      showLevelUp,
-      falseAnswerCount,
-    };
-
-    setHistory((prev) => [...prev, currentSnapshot]);
-
+  
     if (nextQuestionId === null) {
       console.log("no more questions");
     } else {
       setCurrentQuestionId(nextQuestionId);
       setQuestionNumber((prevNumber) => prevNumber + 1);
     }
-
-    if(nextQuestionId === "game over") {
-      setGameOverText(currentQuestion.gameOverText)
-    } else if(nextQuestionId === "end of game not game over") {
-      setGameOverText(currentQuestion.gameOverText)
+  
+    if (nextQuestionId === "game over" || nextQuestionId === "end of game not game over") {
+      setGameOverText(currentQuestion.gameOverText);
     } 
-
+  
     if ([3, 6, 9].includes(questionNumber)) {
       setShowLevelUp(true);
     }
   };
 
   const handleBack = () => {
-    if (history.length > 0) {
-      const lastSnapshot = history[history.length - 1];
-  
-      // Restore previous state values
-      setCurrentQuestionId(lastSnapshot.currentQuestionId);
-      setQuestionNumber(lastSnapshot.questionNumber);
-      setShowAnswerA(lastSnapshot.showAnswerA);
-      setChosenAnswer(lastSnapshot.chosenAnswer);
-      setShownLabelA(lastSnapshot.shownLabelA);
-      setShowLevelUp(lastSnapshot.showLevelUp);
-      setFalseAnswerCount(lastSnapshot.falseAnswerCount);
-  
+    // Only allow back if a snapshot exists and back hasn't been used yet
+    if (currentSnapshot && !backUsed) {
+      // Restore the snapshot
+      setCurrentQuestionId(currentSnapshot.currentQuestionId);
+      setQuestionNumber(currentSnapshot.questionNumber);
+      setShowAnswerA(currentSnapshot.showAnswerA);
+      setChosenAnswer(currentSnapshot.chosenAnswer);
+      setShownLabelA(currentSnapshot.shownLabelA);
+      setShowLevelUp(currentSnapshot.showLevelUp);
+      setFalseAnswerCount(currentSnapshot.falseAnswerCount);
       setFeedbackPart(false);
   
-      setHistory((prev) => prev.slice(0, prev.length - 1));
-
+      // Mark that back has been used so it won't be allowed again
       setBackUsed(true);
     }
   };
@@ -257,8 +262,6 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           shownLabelA={shownLabelA}
         />
       )}
-      
-
       {feedbackPart && (
         <Feedback
           chosenAnswer={chosenAnswer}
@@ -268,7 +271,7 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
           textB={currentQuestion.feedbackB.text}
           handleNextQuestion={handleNextQuestion}
           handleBack={handleBack}
-          canGoBack={!backUsed}
+          canGoBack={!!currentSnapshot && !backUsed}
         />
       )}
       {showLevelUp && (
