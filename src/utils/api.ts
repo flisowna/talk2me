@@ -78,3 +78,23 @@ export async function fetchInfoPageData(): Promise<InfoPageData> {
     'rechtliches': fields['rechtliches'] || '',
   };
 }
+
+export async function getLevelUpData(): Promise<string[]> {
+  const fullApiUrl = "https://aitable.ai/fusion/v1/datasheets/dsthVkeffpovhpGjkc/records?viewId=viw6ccYV35eE5&fieldKey=name";
+  const res = await fetch(fullApiUrl, {
+    headers: {
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch level up data");
+  }
+  const data = await res.json();
+  // Transform the records to an array of level-up texts from the "Superkraft" field
+  const levelUpTexts: string[] = data.data.records.map(
+    (record: { fields: { [key: string]: any } }) => record.fields["Superkraft"]
+  );
+  return levelUpTexts;
+}
+

@@ -6,26 +6,27 @@ import LevelUp3 from "../../../public/levelup3.svg";
 interface LevelUpProps {
     questionNumber: number;
     setShowLevelUpFalse: () => void;
+    levelUpTexts: string[];
 }
 
-const LevelUp: React.FC<LevelUpProps> = ({questionNumber, setShowLevelUpFalse }) => {
+const LevelUp: React.FC<LevelUpProps> = ({questionNumber, setShowLevelUpFalse, levelUpTexts }) => {
 
-    let levelUpImage;
+    let levelUpImage
     let superPower
     let text
 
     if (questionNumber === 4) {
         levelUpImage = LevelUp1
         superPower = 1
-        text = 'Herzlichen Glückwunsch! Du hast die Fähigkeit deinem Gegenüber zuzuhören, ohne ihn zu verurteilen und ihm einen Perspektivwechsel vorzuschlagen. Stattdessen versuchst du, seinen Blickwinkel zu weiten. Heutzutage wird das als Superkraft angesehen.'
+        text = levelUpTexts[0] || 'Herzlichen Glückwunsch! Du hast die Fähigkeit deinem Gegenüber zuzuhören, ohne ihn zu verurteilen und ihm einen Perspektivwechsel vorzuschlagen. Stattdessen versuchst du, seinen Blickwinkel zu weiten. Heutzutage wird das als Superkraft angesehen.'
     } else if (questionNumber === 7) {
         levelUpImage = LevelUp2
         superPower = 2
-        text = 'Du hast die Fähigkeit, Fehlinformationen, in diesem Fall einen Ablenkungsversuch, zu widerlegen. Dein Kollege könnte anfangen, an seinen Überzeugungen zu zweifeln, falsche Ansichten zu erkennen oder seine Quellen zu überprüfen.'
+        text = levelUpTexts[1] || 'Du hast die Fähigkeit, Fehlinformationen, in diesem Fall einen Ablenkungsversuch, zu widerlegen. Dein Kollege könnte anfangen, an seinen Überzeugungen zu zweifeln, falsche Ansichten zu erkennen oder seine Quellen zu überprüfen.'
     } else if (questionNumber === 10) {
         levelUpImage = LevelUp3
         superPower = 3
-        text = 'Deine Fragen treffen ins Schwarze! Du weißt genau, wie und was du fragen musst, um kritisches Denken anzustoßen und deinen Kollegen selbstständig fehlerhafte Argumente erkennen zu lassen. Stelle weitere Fragen!'
+        text = levelUpTexts[2] || 'Deine Fragen treffen ins Schwarze! Du weißt genau, wie und was du fragen musst, um kritisches Denken anzustoßen und deinen Kollegen selbstständig fehlerhafte Argumente erkennen zu lassen. Stelle weitere Fragen!'
     }
 
   

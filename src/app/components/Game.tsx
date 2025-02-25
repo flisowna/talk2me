@@ -10,6 +10,7 @@ import Feedback from "./Feedback";
 import WinGame from "./WinGame";
 import LevelUp from "./LevelUp";
 import GameEndNotGameOver from "./GameEndNotGameOver";
+import { getLevelUpData } from "../../utils/api";
 
 interface Question {
   id: string;
@@ -54,23 +55,23 @@ const Game: React.FC<GameProps> = ({ gameData }) => {
   const [shownLabelA, setShownLabelA] = useState<boolean>(true);
   const [feedbackPart, setFeedbackPart] = useState<boolean>(false);
   const [showLevelUp, setShowLevelUp] = useState<boolean>(false);
-  const [gameOverText, setGameOverText] = useState<string | null>('');
+  const [gameOverText, setGameOverText] = useState<string | null>("");
   const [falseAnswerCount, setFalseAnswerCount] = useState<number>(0);
   const [backUsed, setBackUsed] = useState<boolean>(false);
-  const [currentSnapshot, setCurrentSnapshot] = useState<GameStateSnapshot | null>(null);
+  const [currentSnapshot, setCurrentSnapshot] =
+    useState<GameStateSnapshot | null>(null);
+  const [levelUpTexts, setLevelUpTexts] = useState<string[]>([]);
 
-
-  
-useEffect(() => {
-  setShowAnswerA(true);
-  setChosenAnswer(null);
-  setFeedbackPart(false);
-  shuffleAnswers();
-  setShownLabelA(true);
-  setBackUsed(false);
-  // Optionally clear currentSnapshot here if needed:
-  setCurrentSnapshot(null);
-}, [currentQuestionId]);
+  useEffect(() => {
+    setShowAnswerA(true);
+    setChosenAnswer(null);
+    setFeedbackPart(false);
+    shuffleAnswers();
+    setShownLabelA(true);
+    setBackUsed(false);
+    // Optionally clear currentSnapshot here if needed:
+    setCurrentSnapshot(null);
+  }, [currentQuestionId]);
 
   useEffect(() => {
     if (gameData.length > 0) {
@@ -84,10 +85,22 @@ useEffect(() => {
         showLevelUp: false,
         falseAnswerCount: 0,
       };
-  
+
       setHistory([initialSnapshot]);
     }
   }, [gameData]);
+
+  useEffect(() => {
+    async function fetchLevelUp() {
+      try {
+        const texts = await getLevelUpData();
+        setLevelUpTexts(texts);
+      } catch (error) {
+        console.error("Error fetching level up texts:", error);
+      }
+    }
+    fetchLevelUp();
+  }, []);
 
   const handleSwitchAnswer = () => {
     setShowAnswerA((prevShowAnswerA) => !prevShowAnswerA);
@@ -105,16 +118,15 @@ useEffect(() => {
   };
 
   const handleConfirmLeaveGame = () => {
-    router.push("/"); 
+    router.push("/");
   };
 
   const handleRenewGame = () => {
     setCurrentQuestionId("1");
     setFalseAnswerCount(0);
     setQuestionNumber(1);
-    setShowLevelUp(false);   
+    setShowLevelUp(false);
   };
-
 
   const handleCancelLeaveGame = () => {
     setShowOverlay(false);
@@ -134,7 +146,7 @@ useEffect(() => {
     };
     setCurrentSnapshot(snapshot);
     setBackUsed(false); // Reset back for this question
-  
+
     // Set the chosen answer and update falseAnswerCount if needed
     if (showAnswerA) {
       setChosenAnswer("A");
@@ -149,7 +161,7 @@ useEffect(() => {
     // Clear the current snapshot when moving to the next question
     setCurrentSnapshot(null);
     setFeedbackPart(false);
-  
+
     const currentQuestion = gameData.find((q) => q.id === currentQuestionId);
     if (!currentQuestion) {
       return;
@@ -157,18 +169,21 @@ useEffect(() => {
     const nextQuestionId = showAnswerA
       ? currentQuestion.answerALeadsTo
       : currentQuestion.answerBLeadsTo;
-  
+
     if (nextQuestionId === null) {
       console.log("no more questions");
     } else {
       setCurrentQuestionId(nextQuestionId);
       setQuestionNumber((prevNumber) => prevNumber + 1);
     }
-  
-    if (nextQuestionId === "game over" || nextQuestionId === "end of game not game over") {
+
+    if (
+      nextQuestionId === "game over" ||
+      nextQuestionId === "end of game not game over"
+    ) {
       setGameOverText(currentQuestion.gameOverText);
-    } 
-  
+    }
+
     if ([3, 6, 9].includes(questionNumber)) {
       setShowLevelUp(true);
     }
@@ -186,13 +201,11 @@ useEffect(() => {
       setShowLevelUp(currentSnapshot.showLevelUp);
       setFalseAnswerCount(currentSnapshot.falseAnswerCount);
       setFeedbackPart(false);
-  
+
       // Mark that back has been used so it won't be allowed again
       setBackUsed(true);
     }
   };
-  
-  
 
   const shuffleAnswers = () => {
     const random = Math.random() < 0.5;
@@ -212,7 +225,11 @@ useEffect(() => {
   if (showGameOver() || falseAnswerCount >= 3) {
     return (
       <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
-        <GameOver gameOverData={gameOverText} handleRenewGame={handleRenewGame} handleConfirmLeaveGame={handleConfirmLeaveGame}/>
+        <GameOver
+          gameOverData={gameOverText}
+          handleRenewGame={handleRenewGame}
+          handleConfirmLeaveGame={handleConfirmLeaveGame}
+        />
       </GameLayout>
     );
   }
@@ -220,7 +237,11 @@ useEffect(() => {
   if (showEndOfGame()) {
     return (
       <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
-        <GameEndNotGameOver gameEndNotGameOverData={gameOverText} handleRenewGame={handleRenewGame} handleConfirmLeaveGame={handleConfirmLeaveGame}/>
+        <GameEndNotGameOver
+          gameEndNotGameOverData={gameOverText}
+          handleRenewGame={handleRenewGame}
+          handleConfirmLeaveGame={handleConfirmLeaveGame}
+        />
       </GameLayout>
     );
   }
@@ -228,13 +249,20 @@ useEffect(() => {
   if (currentQuestionId === "end of game") {
     return (
       <GameLayout currentQuestionNumber={questionNumber} totalQuestions={10}>
-        <WinGame winText={currentQuestion?.gameOverText} handleConfirmLeaveGame={handleConfirmLeaveGame} />
+        <WinGame
+          winText={currentQuestion?.gameOverText}
+          handleConfirmLeaveGame={handleConfirmLeaveGame}
+        />
       </GameLayout>
     );
   }
 
   if (currentQuestion == null) {
-    return <div className="flex items-center justify-center h-full">Question not found</div>;
+    return (
+      <div className="flex items-center justify-center h-full">
+        Question not found
+      </div>
+    );
   }
 
   return (
@@ -278,6 +306,7 @@ useEffect(() => {
         <LevelUp
           questionNumber={questionNumber}
           setShowLevelUpFalse={() => setShowLevelUp(false)}
+          levelUpTexts={levelUpTexts}
         />
       )}
     </GameLayout>
